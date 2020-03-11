@@ -54,7 +54,7 @@ namespace caterpi431_ctm
             if (!(obj is ICurrency currency)) return -1;
             var val = currency.Value;
 
-            if (val > Value) return 1;
+            if (val > Value) return 1;  // This would sort currency in descending order, higher demon on top
             if (val < Value) return -1;
             return 0;
         }
@@ -97,6 +97,7 @@ namespace caterpi431_ctm
 
     public interface IAtm
     {
+        // Dictionary of key currency and count of notes
         SortedDictionary<ICurrency, uint> Currencies { get; set; }
 
         uint AtmBalance { get; }
@@ -118,15 +119,17 @@ namespace caterpi431_ctm
 
             Currencies = new SortedDictionary<ICurrency, uint>()
             {
+                // We can add in any order, as its a sorted dictionary
+                [new Currency100()] = 1000,
+                [new Currency20()] = 1000,
                 [new Currency1000()] = 50,
                 [new Currency500()] = 100,
-                [new Currency100()] = 1000,
                 [new Currency50()] = 1000,
-                [new Currency20()] = 1000,
                 [new Currency10()] = 1000
             };
         }
 
+        
         public SortedDictionary<ICurrency, uint> Currencies { get; set; }
 
         public uint AtmBalance =>
